@@ -39,6 +39,28 @@ jobs:
         node-version: '20.x'
         cache: 'npm'
 
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm install
+
+    - name: Run backend tests
+      run: |
+        cd backend
+        npm test
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        npm test
+
+
+
     # Snyk for security dependencies check
     - name: Security dependencies check
       run: |
