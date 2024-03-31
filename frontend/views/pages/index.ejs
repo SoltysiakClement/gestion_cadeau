@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listes de Cadeaux</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- Assurez-vous d'avoir un fichier CSS approprié dans le dossier public/css -->
+</head>
+<body>
+<div>
+    <h2>Ajouter une nouvelle liste</h2>
+    <form action="/creer-liste" method="POST">
+      <input type="text" name="nom" placeholder="Nom de la liste" required>
+      <input type="text" name="description" placeholder="Description" required>
+      <button type="submit">Ajouter</button>
+    </form>
+    </div>
+
+    <h1>Listes de Cadeaux d'Anniversaire</h1>
+    <% if(listes.length > 0) { %>
+        <ul>
+            <% listes.forEach(liste => { %>
+                <li><%= liste.nom %> - <%= liste.description %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>Aucune liste disponible pour le moment.</p>
+    <% } %>
+
+
+
+    <% listes.forEach(liste => { %>
+        <div>
+          <h3><%= liste.nom %></h3>
+          <button onclick="document.getElementById('cadeauForm-<%= liste.id %>').style.display='block'">Ajouter un Cadeau</button>
+          <div id="cadeauForm-<%= liste.id %>" style="display:none;">
+            <form action="/ajouter-cadeau/<%= liste.id %>" method="post">
+              <input type="text" name="nom" placeholder="Nom du cadeau" required>
+              <input type="number" name="prix" placeholder="Prix" step="0.01" required>
+              <button type="submit">Ajouter</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      
+</body>
+</html>

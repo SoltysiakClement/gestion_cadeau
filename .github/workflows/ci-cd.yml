@@ -39,9 +39,7 @@ jobs:
         node-version: '20.x'
         cache: 'npm'
 
-
-
-    # Snyk
+    # Snyk for security dependencies check
     - name: Security dependencies check
       run: |
         npm install -g snyk
@@ -49,11 +47,12 @@ jobs:
       env:
         SNYK_API_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-    #  quality of code
-    - name: Quality code check
-      run: |
-        npm install -g eslint
-        eslint .
+    # Codacy for quality code check
+    - name: Quality code check with Codacy
+      uses: codacy/codacy-analysis-cli-action@master
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        upload: true
 
     # Sécurity of images Docker with Trivy 
     - name: Docker image security scan
@@ -67,16 +66,15 @@ jobs:
     - name: Docker image security scan
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'estion_cadeau-backend-1'
+        image-ref: 'gestion_cadeau-backend-1'
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
         vuln-type: 'os,library'
 
-    # automatic test
+    # Automated tests 
     - name: Automated tests
-      run: npm run automated-tests
+      run: npm run test 
 
-    # clean
     - name: Shutdown Docker Compose
       run: docker-compose down
