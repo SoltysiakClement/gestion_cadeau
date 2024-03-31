@@ -1,32 +1,6 @@
 version: '3.3'
 
 services:
-  
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=123
-      - DB_NAME=gestion_cadeau
-    depends_on:
-      - db
-    networks:
-      - app-network
-
-  frontend:
-      build: ./frontend
-      ports:
-        - "8007:8000"
-      depends_on:
-        - db
-      networks:
-        - app-network
-      volumes:
-      - './frontend:/usr/src/app'
-
   db:
     image: mysql:8
     container_name: cadeau_db
@@ -59,6 +33,34 @@ services:
         - db
       networks:
         - app-network
+
+        
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=123
+      - DB_NAME=gestion_cadeau
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+      build: ./frontend
+      ports:
+        - "8007:8000"
+      depends_on:
+        - db
+      networks:
+        - app-network
+      volumes:
+      - './frontend:/usr/src/app'
+
+  
 
 volumes:
   db-data:
